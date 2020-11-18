@@ -6,28 +6,20 @@ services:
     build:
       context: ./blog_backend
       args:
-        DJANGO_ALLOWED_HOSTS: *
-        DJANGO_SECRET_KEY: *
-        DJANGO_CORS_ORIGIN_WHITELIST: *
+        DJANGO_ALLOWED_HOSTS: localhost, api
+        DJANGO_SECRET_KEY: 'n%osd8*8=tslpj68s...$sao*_^=!z=*ck@0w'
+        CORS_ORIGIN_WHITELIST: http://localhost, http://localhost:8080, http://api
+        ENV: "dev"
     command: gunicorn blog_backend.wsgi --bind 0.0.0.0:8000
+    #command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
   frontend:
     build:
       context: ./blog_frontend
       args:
-        API_URL: *
-    volumes:
-      - build_folder:/frontend/build
-  nginx:
-    image: nginx:latest
+        API_URL: "http://localhost"
     ports:
       - 80:8080
-    volumes:
-      - ./webserver/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
-      - build_folder:/var/www/frontend
     depends_on:
       - backend
-      - frontend
-volumes:
-  build_folder:

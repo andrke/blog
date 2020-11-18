@@ -5,3 +5,6 @@ djangorestframework==3.11.0
 gunicorn==20.0.4
 pytz==2020.1
 sqlparse==0.3.1
+drf-yasg
+django-rest-knox
+psycopg2

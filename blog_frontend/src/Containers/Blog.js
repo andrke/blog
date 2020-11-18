@@ -26,7 +26,7 @@ class Blog extends React.Component {
                         <Menu.Item key="2" onClick={() => this.handleClick(2)}> Create Post</Menu.Item>
                     </Menu></Header>
                 <Content>
-                    {this.state.selected==1?<ListPosts />: <CreateNewPost />
+                    {this.state.selected===1?<ListPosts />: <CreateNewPost />
                     }
                 </Content>
             </Layout>
