@@ -1,3 +1,7 @@
+## Load testing frontend and backend
+This repository is forked from https://github.com/cakmakok/blog
+
+###Original
 <strong> Now you can check this article on <a href="https://medium.com/@cakmak.ok/how-to-deploy-django-rest-framework-and-react-redux-application-with-docker-fa902a611abf">Medium!</a> </strong> <br/>
 This is a primitive blog application. <br/>
 The aim of the project is to have a minimalistic yet extensible fullstack project template in case needed. <br/>
@@ -11,8 +15,7 @@ JS/ React-Redux for Frontend <br/>
 Docker for container <br/>
 Gunicorn and nginx for production server<br/>
 
-You can give it a try :
-
+##Usage
 Set args values in docker-compose.yml file to your host ip and run <br/>
 
 `docker-compose up`
