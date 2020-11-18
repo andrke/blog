@@ -53,6 +53,8 @@ REST_FRAMEWORK = {
         'knox.auth.TokenAuthentication',
     ),
     'DATETIME_FORMAT': "%m/%d/%Y %H:%M:%S",
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
 
 MIDDLEWARE = [
@@ -160,8 +162,8 @@ REDOC_SETTINGS = {
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-#CORS_ORIGIN_ALLOW_ALL = True
-wl = os.environ.get("DJANGO_CORS_ORIGIN_WHITELIST", ["http://localhost",])
+CORS_ORIGIN_ALLOW_ALL = True
+wl = os.environ.get("DJANGO_CORS_ORIGIN_WHITELIST", ['*'])
 if isinstance(wl, str):
     if "," in wl:
         DJANGO_CORS_ORIGIN_WHITELIST = list(map(lambda x: x.strip(), wl.split(",")))

@@ -6,19 +6,18 @@ services:
     build:
       context: ./blog_backend
       args:
-        DJANGO_ALLOWED_HOSTS: localhost, api
-        DJANGO_SECRET_KEY: 'n%osd8*8=tslpj68s...$sao*_^=!z=*ck@0w'
-        CORS_ORIGIN_WHITELIST: http://localhost, http://localhost:8080, http://api
-        ENV: "dev"
+        DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost, api}
+        DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-secret}
+        CORS_ORIGIN_WHITELIST: ${CORS_ORIGIN_WHITELIST:-*, }
+        ENV: ${ENV:-dev}
     command: gunicorn blog_backend.wsgi --bind 0.0.0.0:8000
-    #command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - "8000:8000"
+      - 8000:8000
   frontend:
     build:
       context: ./blog_frontend
       args:
-        API_URL: "http://localhost"
+        API_URL:  ${API_URL:-http://localhost}
     ports:
       - 80:8080
     depends_on:

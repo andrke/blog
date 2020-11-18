@@ -24,8 +24,6 @@ class ListPosts extends React.Component {
 
     render() {
         const posts = this.props.posts
-        console.log(posts)
-
         return (
             <Col span={12} offset={6}>
                 {posts.map(p => (

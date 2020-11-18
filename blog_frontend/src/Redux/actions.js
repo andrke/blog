@@ -6,7 +6,7 @@ export const getPosts = () => {
         dispatch({type:Types.POSTS_LOADING, payload:true})
         axios.get(`${process.env.REACT_APP_HOST_IP_ADDRESS}/api/posts`)
             .then(response => {
-                    dispatch({type:Types.GET_POSTS, payload:response.data})
+                    dispatch({type:Types.GET_POSTS, payload:response.data.results})
                 }
             )
             .catch(err => {
