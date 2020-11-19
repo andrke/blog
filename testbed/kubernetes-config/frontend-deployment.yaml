@@ -24,7 +24,7 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-          name: frontend
+        - name: frontend
           image: entigoandrke/testbed_frontend:latest
           ports:
             - containerPort: 8080

@@ -35,11 +35,11 @@ spec:
             - containerPort: 8000
           env:
             - name: DJANGO_ALLOWED_HOSTS
-              value: backend
+              value: backend, 127.0.0.1, *
             - name: DJANGO_SECRET_KEY
               value: 162(hbn1v^yzi-srdiw8cpf1txnf@6vxw8*17ofowjpt28_9qd4c16
             - name: DJANGO_CORS_ORIGIN_WHITELIST
-              value: frontend, api
+              value: frontend, api, *
 
           resources: {}
       restartPolicy: Always
