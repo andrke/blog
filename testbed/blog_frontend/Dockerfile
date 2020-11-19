@@ -2,7 +2,7 @@ FROM node:14.4.0-alpine3.10 as dependencies
 USER root
 WORKDIR /frontend
 COPY . /frontend
-ARG API_URL
+ARG API_URL=backend
 ENV REACT_APP_HOST_IP_ADDRESS $API_URL
 RUN yarn
 RUN yarn build

@@ -3,11 +3,22 @@
 ### Dockerized setup
 `$ docker build . -t locust-tasks`
 
-`$ docker network create --driver bridge locustnw`
+`$ docker run -it --rm -p=8089:8089 locust-tasks:latest -t https://postimees.ee -l locustfile-simple-index.py`
 
-`$ docker run -it --rm -p=8089:8089 \
-  -e "TARGET_HOST=http://exampleserver:8080" \
-   --network=locustnw locust-tasks:latest`
+#### Headless 
+
+##### Simple index
+
+`docker run -it --rm entigoandrke/locust-tasks:latest \
+  -t https://postimees.ee -l locustfile-simple-index.py -e '--headless -u 100 -r 10'`
+
+
+##### Testbed testing
+Without locustfile specification default is locustfile.py
+
+`docker run -it --rm entigoandrke/locust-tasks:latest \
+  -t https://<TESTBED_IP_ADDRESS> '--headless -u 100 -r 10'`
+
 
 ### Virtual env
 

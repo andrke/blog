@@ -18,4 +18,7 @@ Gunicorn and nginx for production server<br/>
 ##Usage
 Set args values in docker-compose.yml file to your host ip and run <br/>
 
-`docker-compose up`
+`$ cd testbet`
+
+`$ docker-compose up`
+

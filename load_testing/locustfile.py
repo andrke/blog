@@ -61,6 +61,14 @@ class WebsiteUser(HttpUser):
                               "password": register_data.get("password")}) as response:
                 self.token = response.json().get('token')
 
+        @task(5)
+        def get_nginx_health(self):
+            self.client.get("/health/health.html")
+
+        @task(4)
+        def get_full_stack_healthz(self):
+            self.client.get("/healthz/")
+
         @task(3)
         def get_first_three_pages(self):
             for i in [100, 200, 300]:

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: backend
+    spec:
+      containers:
+        - name: backend
+          image: entigoandrke/testbed_backend:latest
+          args:
+            - gunicorn
+            - blog_backend.wsgi
+            - --bind
+            - 0.0.0.0:8000
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DJANGO_ALLOWED_HOSTS
+              value: backend
+            - name: DJANGO_SECRET_KEY
+              value: 162(hbn1v^yzi-srdiw8cpf1txnf@6vxw8*17ofowjpt28_9qd4c16
+            - name: DJANGO_CORS_ORIGIN_WHITELIST
+              value: frontend, api
+
+          resources: {}
+      restartPolicy: Always
+status: {}

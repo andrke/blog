@@ -11,8 +11,9 @@ RUN mkdir /locust-tasks
 WORKDIR /locust-tasks
 # copy only the dependencies installation from the 1st stage image
 COPY --from=builder /root/.local /root/.local
-COPY . .
+COPY run.sh .
 RUN chmod 755 run.sh
+COPY *.py /locust-tasks/
 
 
 # Expose the required Locust ports

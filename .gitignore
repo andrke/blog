@@ -80,8 +80,8 @@ blog_api/
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-blog_frontend/node_modules
-blog_frontend/.pnp
+testbed/blog_frontend/node_modules
+testbed/blog_frontend/.pnp
 .pnp.js
 
 # testing
