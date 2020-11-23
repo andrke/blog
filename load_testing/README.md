@@ -3,7 +3,7 @@
 ### Dockerized setup
 `$ docker build . -t locust-tasks`
 
-`$ docker run -it --rm -p=8089:8089 locust-tasks:latest -t https://postimees.ee -l locustfile-simple-index.py`
+`$ docker run -it --rm -p=8089:8089 locust-tasks:latest -t https://example.com -l locustfile-simple-index.py`
 
 #### Headless 
 

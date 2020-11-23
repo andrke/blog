@@ -7,13 +7,15 @@ realpath() {
 }
 fi
 
+# Set up directories
+SCRIPT_PATH=$(realpath $(dirname "$0"))
+
 LOCUST_TARGET_HOST=${LOCUST_TARGET_HOST:-http://localhost}
 LOCUST_EXTRA=${LOCUST_EXTRA:-""}
 LOCUST_MASTER=${LOCUST_MASTER:-locust-master}
 LOCUST_FILE=${LOCUST_FILE:-locustfile.py}
+LOCUST_SCRIPTS_PATH=${LOCUST_SCRIPTS_PATH:-$SCRIPT_PATH}
 
-# Set up directories
-SCRIPT_PATH=$(realpath $(dirname "$0"))
 
 LOCUST=$(which locust)
 
@@ -113,10 +115,27 @@ function parse_params() {
     done
 }
 
+function handle_locustfile() {
+  url=$(echo $LOCUST_FILE | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*")
+  if [ ! -z "$url" ]; then
+    locustfile_to_download=$(echo $url | awk -F"/" '{print $NF}')
+    echo wget -O "$LOCUST_SCRIPTS_PATH"/"$locustfile_to_download" "$url"
+    wget -O "$LOCUST_SCRIPTS_PATH"/"$locustfile_to_download" "$url"
+    if [ -f "$LOCUST_SCRIPTS_PATH"/"$locustfile_to_download" ]; then
+      export LOCUST_FILE="$LOCUST_SCRIPTS_PATH"/"$locustfile_to_download"
+      cat $LOCUST_FILE
+    else
+      echo "Unable to locate $locustfile_to_download"
+      exit 2
+    fi
+  fi
+}
+
 function main() {
     parse_params "$@"
+    handle_locustfile
 
-    LOCUS_OPTS="-f $SCRIPT_PATH/$LOCUST_FILE --host=$LOCUST_TARGET_HOST"
+    LOCUS_OPTS="-f $LOCUST_FILE --host=$LOCUST_TARGET_HOST"
     LOCUST_MODE=${LOCUST_MODE:-standalone}
     if [[ "$LOCUST_MODE" = "master" ]]; then
         LOCUS_OPTS="$LOCUS_OPTS --master"
