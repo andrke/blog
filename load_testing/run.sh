@@ -16,7 +16,7 @@ LOCUST_MASTER=${LOCUST_MASTER:-locust-master}
 LOCUST_FILE=${LOCUST_FILE:-locustfile.py}
 LOCUST_SCRIPTS_PATH=${LOCUST_SCRIPTS_PATH:-$SCRIPT_PATH}
 LOCUST_MODE=${LOCUST_MODE:-standalone}
-
+SCRIPT_VERBOSE=${SCRIPT_VERBOSE:-false}
 
 LOCUST=$(which locust)
 
@@ -104,19 +104,20 @@ function parse_params() {
                 exit 0
                 ;;
             -v | --verbose)
-                verbose=true
+                SCRIPT_VERBOSE=true
                 shift
                 ;;
             *)
-              script_usage
-              shift
-              exit 1
+                script_usage
+                shift
+                exit 1
                 ;;
         esac
     done
 }
 
 function handle_locustfile() {
+  set +e
   url=$(echo $LOCUST_FILE | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*")
   if [ ! -z "$url" ]; then
     locustfile_to_download=$(echo $url | awk -F"/" '{print $NF}')
@@ -124,18 +125,22 @@ function handle_locustfile() {
     wget -O "$LOCUST_SCRIPTS_PATH"/"$locustfile_to_download" "$url"
     if [ -f "$LOCUST_SCRIPTS_PATH"/"$locustfile_to_download" ]; then
       export LOCUST_FILE="$LOCUST_SCRIPTS_PATH"/"$locustfile_to_download"
-      cat $LOCUST_FILE
     else
-      echo "Unable to locate $locustfile_to_download"
+      echo "Unable to locate $LOCUST_SCRIPTS_PATH/$locustfile_to_download"
       exit 2
     fi
+  else
+    export LOCUST_FILE="$LOCUST_SCRIPTS_PATH"/"$LOCUST_FILE"
   fi
+  if [ "$SCRIPT_VERBOSE" == "true" ]; then
+    cat $LOCUST_FILE
+  fi
+  set -e
 }
 
 function main() {
     parse_params "$@"
     handle_locustfile
-
     LOCUS_OPTS="-f $LOCUST_FILE --host=$LOCUST_TARGET_HOST"
     if [[ "$LOCUST_MODE" = "master" ]]; then
         LOCUS_OPTS="$LOCUS_OPTS --master"
@@ -144,7 +149,7 @@ function main() {
           echo locust master is missing
           exit 2
         fi
-        LOCUS_OPTS="$LOCUS_OPTS --slave --master-host=$LOCUST_MASTER"
+        LOCUS_OPTS="$LOCUS_OPTS --worker --master-host=$LOCUST_MASTER"
     fi
     LOCUS_OPTS="$LOCUS_OPTS $LOCUST_EXTRA"
     echo "$LOCUST $LOCUS_OPTS"
