@@ -31,8 +31,7 @@ That's pretty much it.
 Let's dive in and go through the building blocks of the Locust cluster to be deployed.
 
 Kubernetes' *configmaps* will help configure Locust. 
-[One configmap](./scripts-cm.yaml) will hold a proper locustfile and will be mounted as a volume to the master and workers, 
-[the second](./locust-cm.yaml) will contain other configuration settings (URL for tested host/service, for example) that will be injected to running Locust nodes as environment variables.
+[the primary](./locust-cm.yaml) will contain other configuration settings (URL for tested host/service, for example) that will be injected to running Locust nodes as environment variables.
 
 
 I'll use *deployment* in order to "ask" K8s for making sure our [master](./master-deployment.yaml) and [slaves](./slave-deployment.yaml) are up and running. 

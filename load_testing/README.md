@@ -32,4 +32,4 @@ Without locustfile specification default is locustfile.py
 
 ## Distributed setup
 
-https://blog.realkinetic.com/load-testing-with-locust-part-2-5f5abd8dbce4
+Follow the [Kubernetes](./kubernetes) instructions
