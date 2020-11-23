@@ -15,6 +15,7 @@ LOCUST_EXTRA=${LOCUST_EXTRA:-""}
 LOCUST_MASTER=${LOCUST_MASTER:-locust-master}
 LOCUST_FILE=${LOCUST_FILE:-locustfile.py}
 LOCUST_SCRIPTS_PATH=${LOCUST_SCRIPTS_PATH:-$SCRIPT_PATH}
+LOCUST_MODE=${LOCUST_MODE:-standalone}
 
 
 LOCUST=$(which locust)
@@ -37,11 +38,11 @@ fi
 function script_usage() {
     cat << EOF
 Usage:
-     -m|--locust-mode           Locust run mode [master, worker, standalone]
-     -t|--target-host           Locust target host. Default http://localhost
-     -M|--locust-master         Locust master server in worker mode
-     -e|--locust-extra          Locust extra parameters. eg '--headless -u 100 -r 10'
-     -l|--locust-file           Locust file Default locustfile.py
+     -m|--locust-mode           Locust run mode [master, worker, standalone] or LOCUST_MODE env
+     -t|--target-host           Locust target host. or LOCUST_TARGET_HOST env Default http://localhost
+     -M|--locust-master         Locust master server in worker mode or LOCUST_MASTER env
+     -e|--locust-extra          Locust extra parameters or LOCUST_EXTRA env eg '--headless -u 100 -r 10'
+     -l|--locust-file           Locust file or LOCUST_FILE env. Default locustfile.py
      -h|--help                  Displays this help
 
 EOF
@@ -136,7 +137,6 @@ function main() {
     handle_locustfile
 
     LOCUS_OPTS="-f $LOCUST_FILE --host=$LOCUST_TARGET_HOST"
-    LOCUST_MODE=${LOCUST_MODE:-standalone}
     if [[ "$LOCUST_MODE" = "master" ]]; then
         LOCUS_OPTS="$LOCUS_OPTS --master"
     elif [[ "$LOCUST_MODE" = "worker" ]]; then
