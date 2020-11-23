@@ -96,6 +96,7 @@ blog_frontend/build
 .env.development.local
 .env.test.local
 .env.production.local
+.swp
 
 blog_frontend/npm-debug.log*
 blog_frontend/yarn-debug.log*

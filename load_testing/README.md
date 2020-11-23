@@ -10,7 +10,7 @@
 ##### Simple index
 
 `docker run -it --rm entigoandrke/locust-tasks:latest \
-  -t https://postimees.ee -l locustfile-simple-index.py -e '--headless -u 100 -r 10'`
+  -t https://example.com -l locustfile-simple-index.py -e '--headless -u 100 -r 10'`
 
 
 ##### Testbed testing

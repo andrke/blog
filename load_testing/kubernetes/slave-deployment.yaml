@@ -32,7 +32,7 @@ spec:
                 name: locust-cm
                 key: LOCUST_TARGET_HOST
           - name: LOCUST_MODE
-            value: salve
+            value: worker
           - name: LOCUST_MASTER
             value: locust-master
         resources: {}
