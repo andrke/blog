@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
@@ -9,7 +9,10 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
-          serviceName: locust-master
-          servicePort: 8089
-        path: /locust
+        - path: /testpath
+          pathType: Prefix
+          backend:
+            service:
+              name: locust-master
+              port:
+                number: 8089

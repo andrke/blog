@@ -155,7 +155,7 @@ The final piece of the  puzzle here is an ingress which is K8s' mechanism that a
 According to this simple rule:
 
 ```
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
