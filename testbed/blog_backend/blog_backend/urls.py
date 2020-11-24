@@ -44,6 +44,7 @@ urlpatterns = [
     path('api/', include('blog.urls')),
     path('api/auth/', include('accounts.api.urls')),  # added
     path('healthz/', views.APIHealthView().as_view(), name='healthz'),
+    path('sleep/', views.APISleepView().as_view(), name='sleep'),
     url(
         r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')

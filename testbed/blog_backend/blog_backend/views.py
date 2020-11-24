@@ -1,4 +1,5 @@
 import os
+import time
 import subprocess
 
 from rest_framework.response import Response
@@ -22,3 +23,16 @@ class APIHealthView(APIView):
         if connection.is_usable():
             return Response(dict(status="ok", connection=connection_data))
         return Response(dict(status="error", connection=connection_data), code=503)
+
+class APISleepView(APIView):
+    def get(self, request):
+        date = now()
+        container = subprocess.getoutput('hostname').strip()
+        sleep = request.GET.get('time')
+        if sleep:
+            try:
+                sleep = int(sleep)
+            except Exception:
+                sleep = 1
+            time.sleep(sleep)
+        return Response(dict(date=date, container=container, sleep=sleep))

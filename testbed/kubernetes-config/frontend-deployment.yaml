@@ -29,8 +29,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: REACT_APP_HOST_IP_ADDRESS
-              value: backend
+            - name: API_URL
+              value: http://backend:8000
           resources: {}
       restartPolicy: Always
 status: {}

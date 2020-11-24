@@ -37,13 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
     'knox',
     'drf_yasg',
-    'blog'
+    'blog',
+    'channels'
 ]
 
 REST_FRAMEWORK = {
@@ -168,3 +170,5 @@ wl = os.environ.get("DJANGO_CORS_ORIGIN_WHITELIST", ['*'])
 if isinstance(wl, str):
     if "," in wl:
         DJANGO_CORS_ORIGIN_WHITELIST = list(map(lambda x: x.strip(), wl.split(",")))
+
+ASGI_APPLICATION = "blog_backend.asgi.application"

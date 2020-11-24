@@ -1,9 +1,9 @@
 upstream api {
-    server backend:8000;
+    server ${API_HOST}:${API_HOST_PORT};
 }
 
 server {
-    listen 8080;
+    listen ${NGINX_LISTEN_PORT};
 
     location /api/ {
         proxy_pass http://api$request_uri;
