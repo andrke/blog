@@ -16,4 +16,4 @@ RUN yarn build
 
 FROM nginx:latest AS release
 COPY --from=dependencies /frontend/build ./var/www/frontend
-COPY nginx/nginx-proxy.conf.template  /etc/nginx/templates
+COPY nginx/nginx-proxy.conf.template  /etc/nginx/templates/
