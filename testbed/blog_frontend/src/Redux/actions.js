@@ -4,7 +4,7 @@ import axios from "axios";
 export const getPosts = () => {
     return dispatch => {
         dispatch({type:Types.POSTS_LOADING, payload:true})
-        axios.get(`${process.env.API_URL}/api/posts`)
+        axios.get('/api/posts/')
             .then(response => {
                     dispatch({type:Types.GET_POSTS, payload:response.data.results})
                 }
@@ -20,7 +20,7 @@ export const getPosts = () => {
 export const deletePost = (id,cb) => {
     return dispatch => {
         dispatch({type:Types.POSTS_LOADING, payload:true})
-        axios.delete(`${process.env.API_URL}/api/posts/${id}/`)
+        axios.delete('/api/posts/${id}/'    )
             .then(response => {
                     dispatch({type:Types.DELETE_POST, payload:id});
                     cb();
@@ -35,7 +35,7 @@ export const deletePost = (id,cb) => {
 
 export const createPost = (data,cb) => {
     return dispatch => {
-        axios.post(`${process.env.API_URL}/api/posts/`, data)
+        axios.post('/api/posts/', data)
             .then(response => {
                     console.log(response)
                     dispatch({type:Types.CREATE_POST, payload:response.data});

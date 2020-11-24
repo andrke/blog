@@ -10,14 +10,17 @@ services:
         DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-secret}
         CORS_ORIGIN_WHITELIST: ${CORS_ORIGIN_WHITELIST:-*, }
         ENV: ${ENV:-dev}
-    command: gunicorn blog_backend.wsgi --bind 0.0.0.0:8000
+    command: gunicorn blog_backend.wsgi --bind 0.0.0.0:8000 --log-level debug
     ports:
       - 8000:8000
   frontend:
     build:
       context: ./blog_frontend
-      args:
-        API_URL:  ${API_URL:-http://localhost}
+    environment:
+        - API_HOST=backend
+        - API_HOST_PORT=8000
+        - NGINX_LISTEN_PORT=8080
+        - API_URL=http://backend:8000
     ports:
       - 80:8080
     depends_on:

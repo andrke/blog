@@ -5,45 +5,25 @@ upstream api {
 server {
     listen ${NGINX_LISTEN_PORT};
 
-    location /api/ {
-        proxy_pass http://api$request_uri;
-    }
-
-    location /accounts/ {
-        proxy_pass http://api$request_uri;
-    }
-
-    location /swagger/ {
-        proxy_pass http://api$request_uri;
+    location ~* /(api|accounts|swagger|redoc|api-auth|healthz|admin)/ {
+         proxy_pass http://api;
+         proxy_set_header X-Forwarded-Host $http_host;
+         proxy_set_header X-Real-IP $remote_addr;
+         add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
     }
 
     location ~* swagger\.(json|yaml)$ {
-        proxy_pass http://api$request_uri;
-    }
-
-
-    location /redoc/ {
-        proxy_pass http://api$request_uri;
-    }
-
-    location /api-auth/ {
-        proxy_pass http://api$request_uri;
-    }
-
-    location /healthz/ {
-        proxy_pass http://api$request_uri;
-    }
-
-    location /admin/ {
-        proxy_pass http://api$request_uri;
+         proxy_pass http://api;
+         proxy_set_header X-Forwarded-Host $http_host;
+         proxy_set_header X-Real-IP $remote_addr;
+         add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
     }
    
-    location /static/admin/ {
-        proxy_pass http://api$request_uri;
-    }
-
-    location /static/rest_framework/ {
-        proxy_pass http://api$request_uri;
+    location ~* /static/(admin|rest_framework|drf-yasg)/ {
+         proxy_pass http://api;
+         proxy_set_header X-Forwarded-Host $http_host;
+         proxy_set_header X-Real-IP $remote_addr;
+         add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
     }
 
     # ignore cache frontend

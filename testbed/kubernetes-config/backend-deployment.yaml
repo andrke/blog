@@ -2,35 +2,35 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (HEAD)
-  creationTimestamp: null
+    deployment.kubernetes.io/revision: "1"
   labels:
-    io.kompose.service: backend
+    role: testbed_backend
   name: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: backend
-  strategy: {}
+      role: testbed_backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (HEAD)
-      creationTimestamp: null
       labels:
-        io.kompose.service: backend
+        role: testbed_backend
     spec:
       containers:
         - name: backend
-          image: entigoandrke/testbed_backend:latest
+          image: entigoandrke/testbed_backend:v0.01
           args:
             - gunicorn
             - blog_backend.wsgi
             - --bind
             - 0.0.0.0:8000
+            - --log-level
+            - debug
           ports:
             - containerPort: 8000
           env:

@@ -1,4 +1,4 @@
-from locust import HttpUser, TaskSet, task
+from locust import HttpUser, SequentialTaskSet, task
 import feedparser
 import uuid
 import random
@@ -37,7 +37,7 @@ class WebsiteUser(HttpUser):
     min_wait = 5000
     max_wait = 9000
     @task
-    class UserBehavior(TaskSet):
+    class UserBehavior(SequentialTaskSet):
         def on_start(self):
             """ on_start is called when a Locust start before
                 any task is scheduled
@@ -60,6 +60,11 @@ class WebsiteUser(HttpUser):
                              {"username": register_data.get("user"),
                               "password": register_data.get("password")}) as response:
                 self.token = response.json().get('token')
+
+        @task(6)
+        def get_sleep_time(self):
+            sleep = 20
+            self.client.get("/sleep/?time={}".format(sleep), timeout=None)
 
         @task(5)
         def get_nginx_health(self):
