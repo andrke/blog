@@ -20,16 +20,16 @@
 * Add your ssh public key into locust/master-key.pub
 * Inizialize terrafrom module
     
-    ``terrafrom init``
+    ``terraform init``
 * Terrafrom Plan
 
-    ``terrafrom plan``
+    ``terraform plan``
 
 * Terrafrom apply
     
-    ``terrafrom apply``
+    ``terraform apply``
     
-    Follow the url 
+* Follow the url 
         
         ....
         Outputs:

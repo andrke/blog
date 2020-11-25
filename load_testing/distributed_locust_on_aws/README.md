@@ -20,21 +20,21 @@
 * Add your ssh public key into locust/master-key.pub
 * Inizialize terrafrom module
     
-    ``terrafrom init``
+    ``terraform init``
 * Terrafrom Plan
 
-    ``terrafrom plan``
+    ``terraform plan``
 
 * Terrafrom apply
     
-    ``terrafrom apply``
+    ``terraform apply``
     
-    Follow the url 
+* Follow the url 
         
         ....
         Outputs:
 
-        locust_master_url = http://ec2-1-2-3-4.x-region-1.compute.amazonaws.com:8089/`
+        locust_master_url = http://ec2-1-2-3-4.x-region-1.compute.amazonaws.com:8089/
 
         
         
