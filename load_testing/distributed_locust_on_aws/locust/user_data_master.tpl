@@ -7,4 +7,4 @@ service docker start
 usermod -a -G docker ec2-user
 sleep 10
 
-docker run -t -p 8089:8089 -p 5557:5557 -p 5558:5558 ${image} ${params}
+docker run -t -p 8089:8089 -p 5557:5557 -p 5558:5558 -p 5559:5559 ${image} ${params}

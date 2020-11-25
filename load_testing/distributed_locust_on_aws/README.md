@@ -17,7 +17,7 @@
 * Ensure you have default VPC in place
 
 ## Run the code
-* Add your ssh public key into locust/master-key.pub
+* Replace your ssh public key into locust/master-key.pub
 * Inizialize terrafrom module
     
     ``terraform init``

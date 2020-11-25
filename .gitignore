@@ -105,3 +105,5 @@ blog_frontend/yarn-error.log*
 terraform.tfstate
 terraform.tfstate.backup
 .terraform
+.terraform.*
+user_data_*
