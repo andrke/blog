@@ -1,4 +1,4 @@
-##How to execute
+## How to execute
 
 ### Dockerized setup
 `$ docker build . -t locust-tasks`
