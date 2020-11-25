@@ -9,27 +9,35 @@
 
 ##### Simple index
 
-`docker run -it --rm entigoandrke/locust-tasks:latest \
+`$ docker run -it --rm entigoandrke/locust-tasks:latest \
   -t https://example.com -l locustfile-simple-index.py -e '--headless -u 100 -r 10'`
 
 
 ##### Testbed testing
 Without locustfile specification default is locustfile.py
 
-`docker run -it --rm entigoandrke/locust-tasks:latest \
+`$ docker run -it --rm entigoandrke/locust-tasks:latest \
   -t https://<TESTBED_IP_ADDRESS> '--headless -u 100 -r 10'`
 
 
 ### Virtual env
 
-`$python3 -m venv .venv`
+`$ python3 -m venv .venv`
 
-`$activate .evn/bin/active`
+`$ activate .evn/bin/active`
 
-`$pip install -r requirements.txt`
+`$ pip install -r requirements.txt`
 
-`$./run.sh`
+`$ ./run.sh`
 
 ## Distributed setup
 
+### Kubernetes
+
 Follow the [Kubernetes](./kubernetes) instructions
+
+
+### Terraform AWS
+
+
+Follow the [Distributed locust on AWS](./distributed_locust_on_aws) instructions
