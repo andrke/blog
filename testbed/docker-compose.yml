@@ -10,7 +10,7 @@ services:
         DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-secret}
         CORS_ORIGIN_WHITELIST: ${CORS_ORIGIN_WHITELIST:-*, }
         ENV: ${ENV:-dev}
-    command: gunicorn blog_backend.wsgi --bind 0.0.0.0:8000 --log-level debug
+    command: gunicorn blog_backend.wsgi --bind 0.0.0.0:8000 -t 1800 --log-level debug
     ports:
       - 8000:8000
   frontend:

@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.views.static import serve
 
 from . import views
 schema_view = get_schema_view(
@@ -48,5 +49,6 @@ urlpatterns = [
     url(
         r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')
-    )
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    ),
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
+]
