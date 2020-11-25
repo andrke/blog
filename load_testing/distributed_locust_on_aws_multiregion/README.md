@@ -1,4 +1,4 @@
-# Distributed locust on AWS
+# Distributed locust on AWS with multiregion
 
 ## Prerequiments
 

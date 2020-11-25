@@ -23,7 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "secure_key_not_set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+ALLOWED_HOSTS = ['*']
 
 if os.environ.get("DJANGO_ALLOWED_HOSTS"):
     ALLOWED_HOSTS = list(map( lambda x: x.strip(), os.environ.get("DJANGO_ALLOWED_HOSTS").split(",")))
@@ -166,9 +168,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 CORS_ORIGIN_ALLOW_ALL = True
-wl = os.environ.get("DJANGO_CORS_ORIGIN_WHITELIST", ['*'])
-if isinstance(wl, str):
-    if "," in wl:
-        DJANGO_CORS_ORIGIN_WHITELIST = list(map(lambda x: x.strip(), wl.split(",")))
+DJANGO_CORS_ORIGIN_WHITELIST = ['*']
+if os.environ.get("DJANGO_CORS_ORIGIN_WHITELIST"):
+    DJANGO_CORS_ORIGIN_WHITELIST = list(map(lambda x: x.strip(), os.environ.get("DJANGO_CORS_ORIGIN_WHITELIST").split(",")))
 
 ASGI_APPLICATION = "blog_backend.asgi.application"

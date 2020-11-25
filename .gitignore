@@ -101,3 +101,7 @@ blog_frontend/build
 blog_frontend/npm-debug.log*
 blog_frontend/yarn-debug.log*
 blog_frontend/yarn-error.log*
+
+terraform.tfstate
+terraform.tfstate.backup
+.terraform
