@@ -1,24 +1,15 @@
-variable "master_region" {
-  type    = string
-  default = "eu-north-1"
-}
-
-variable "slave_region" {
-  type    = string
-  default = "eu-north-1"
-}
 
 variable "master_instance_type" {
   type    = string
   default = "t3.micro"
 }
 
-variable "slave_instance_type" {
+variable "worker_instance_type" {
   type    = string
   default = "t3.micro"
 }
 
-variable "slaves_per_region" {
+variable "workers_per_region" {
   type    = number
   default = 1
 }

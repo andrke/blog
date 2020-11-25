@@ -46,7 +46,7 @@ module "security_group_master" {
       from_port   = 5557
       to_port     = 5558
       protocol    = "tcp"
-      description = "locust slave connections"
+      description = "locust worker connections"
       cidr_blocks = "0.0.0.0/0"
     },
     {
@@ -60,12 +60,12 @@ module "security_group_master" {
   egress_rules = ["all-all"]
 }
 
-module "security_group_slave" {
+module "security_group_worker" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 3.0"
 
-  name        = "locust slave"
-  description = "Security group for Locust slave instances"
+  name        = "locust worker"
+  description = "Security group for Locust worker instances"
   vpc_id      = data.aws_vpc.default.id
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
@@ -95,18 +95,18 @@ module "locust_master" {
   user_data_base64            = base64encode(local.user_data_master)
 }
 
-module "locust_slaves" {
+module "locust_workers" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.0"
 
-  instance_count              = var.create_slaves ? var.slaves_per_region : 0
-  instance_type               = var.slave_instance_type
+  instance_count              = var.create_workers ? var.workers_per_region : 0
+  instance_type               = var.worker_instance_type
   ami                         = data.aws_ami.amazon_linux.id
-  name                        = "slave"
+  name                        = "worker"
   key_name                    = local.management_key_name
   associate_public_ip_address = true
   subnet_id                   = tolist(data.aws_subnet_ids.all.ids)[0]
-  vpc_security_group_ids      = [module.security_group_slave.this_security_group_id]
-  user_data_base64            = base64encode(local.user_data_slave)
+  vpc_security_group_ids      = [module.security_group_worker.this_security_group_id]
+  user_data_base64            = base64encode(local.user_data_worker)
 }
 
