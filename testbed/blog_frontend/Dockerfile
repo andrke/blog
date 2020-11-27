@@ -1,4 +1,5 @@
 FROM node:14.4.0-alpine3.10 as dependencies
+LABEL maintainer="Andres Kepler <andres.kepler@entigo.com>"
 USER root
 WORKDIR /frontend
 COPY . /frontend

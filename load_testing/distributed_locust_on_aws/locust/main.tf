@@ -39,12 +39,12 @@ module "security_group_master" {
   description = "Security group for locust master instance"
   vpc_id      = data.aws_vpc.default.id
 
-  ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_cidr_blocks = ["185.46.20.32/28"]
   ingress_rules       = ["ssh-tcp", "all-icmp"]
   ingress_with_cidr_blocks = [
     {
       from_port   = 5557
-      to_port     = 5558
+      to_port     = 5559
       protocol    = "tcp"
       description = "locust worker connections"
       cidr_blocks = "0.0.0.0/0"
@@ -54,7 +54,7 @@ module "security_group_master" {
       to_port     = 8089
       protocol    = "tcp"
       description = "locust master web UI"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "185.46.20.32/28"
     }
   ]
   egress_rules = ["all-all"]
@@ -68,7 +68,7 @@ module "security_group_worker" {
   description = "Security group for Locust worker instances"
   vpc_id      = data.aws_vpc.default.id
 
-  ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_cidr_blocks = ["185.46.20.32/28"]
   ingress_rules       = ["ssh-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 }

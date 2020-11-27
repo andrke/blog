@@ -18,6 +18,7 @@
 
 ## Run the code
 * Replace your ssh public key into locust/master-key.pub
+
 * Inizialize terrafrom module
     
     ``terraform init``

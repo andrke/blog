@@ -1,2 +1,5 @@
 locust
 feedparser
+git+git://github.com/andrke/locust_mqtt.git@0.0.2#egg=locust_mqtt
+websocket-client
+tornado==4.4.2

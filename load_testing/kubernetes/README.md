@@ -20,7 +20,7 @@ Locust cluster and see if there are any surprises along the way.
 
 Running Locust in distributed mode is described in its documentation.
 In short:
-* you can have one master and multiple slave nodes (workers)
+* you can have one master and multiple worker nodes
 * you need to tell the workers where the master is (give them the IP address and ports)
 * you need to supply each worker with the tests code (locustfiles)
 * the workers need to be able to connect to the master.
@@ -34,7 +34,7 @@ Kubernetes' *configmaps* will help configure Locust.
 [the primary](./locust-cm.yaml) will contain other configuration settings (URL for tested host/service, for example) that will be injected to running Locust nodes as environment variables.
 
 
-I'll use *deployment* in order to "ask" K8s for making sure our [master](./master-deployment.yaml) and [slaves](./slave-deployment.yaml) are up and running. 
+I'll use *deployment* in order to "ask" K8s for making sure our [master](./master-deployment.yaml) and [workers](./worker-deployment.yaml) are up and running. 
 [The service](./service.yaml) will make the master addressable within the cluster.
 
 # Cluster deployment
@@ -44,7 +44,7 @@ All the source files used below are stored in /kubernetes directory of the exper
 
     > git clone git@github.com:andrke/blog.git
     > cd blog\load_testing\kubernetes
-    > kubectl apply -f locust-cm.yaml,master-deployment.yaml, service.yaml, slave-deployment.yaml
+    > kubectl apply -f locust-cm.yaml,master-deployment.yaml, service.yaml, worker-deployment.yaml
 
 *kubectl* command connects to my minikube cluster and crate the components mentioned above. 
 If ran for the first time, it may take a while to complete (if there is no locust docker image on the cluster, it needs to be downloaded first).
@@ -53,8 +53,8 @@ To see, if locust nodes are running we can inspect if the pods are up:
     > kubectl get -w pods
     NAME                             READY     STATUS    RESTARTS   AGE
     locust-master-754dc88dd8-zgs7m   1/1       Running   0          24m
-    locust-slave-7c89bfc5b7-4cms8    1/1       Running   0          24m
-    locust-slave-7c89bfc5b7-f7p4l    1/1       Running   0          24m
+    locust-worker-7c89bfc5b7-4cms8    1/1       Running   0          24m
+    locust-worker-7c89bfc5b7-f7p4l    1/1       Running   0          24m
 
 From the output we can pick up the master name can also take a look at the logs.
 `kubectl logs locust-master-754dc88dd8-zgs7m` should include the following information:
@@ -62,11 +62,11 @@ From the output we can pick up the master name can also take a look at the logs.
 ```
 [2018-01-02 08:05:14,662] locust-master-754dc88dd8-zgs7m/INFO/locust.main: Starting web monitor at *:8089
 [2018-01-02 08:05:14,666] locust-master-754dc88dd8-zgs7m/INFO/locust.main: Starting Locust 0.8.1
-[2018-01-02 08:05:15,741] locust-master-754dc88dd8-zgs7m/INFO/locust.runners: Client 'locust-slave-7c89bfc5b7-4cms8_ed388a7a4bd15b51d094ae3afb05dc35' reported as ready. Currently 1 clients ready to swarm.
-[2018-01-02 08:05:16,779] locust-master-754dc88dd8-zgs7m/INFO/locust.runners: Client 'locust-slave-7c89bfc5b7-f7p4l_74c58b7509b00b5be5d4ab05c4f87abf' reported as ready. Currently 2 clients ready to swarm.
+[2018-01-02 08:05:15,741] locust-master-754dc88dd8-zgs7m/INFO/locust.runners: Client 'locust-worker-7c89bfc5b7-4cms8_ed388a7a4bd15b51d094ae3afb05dc35' reported as ready. Currently 1 clients ready to swarm.
+[2018-01-02 08:05:16,779] locust-master-754dc88dd8-zgs7m/INFO/locust.runners: Client 'locust-worker-7c89bfc5b7-f7p4l_74c58b7509b00b5be5d4ab05c4f87abf' reported as ready. Currently 2 clients ready to swarm.
 ```
 
-We can see that the master has started (line 1 and 2) and the slaves "volunteer" to do some work (lines 3-4).
+We can see that the master has started (line 1 and 2) and the workers "volunteer" to do some work (lines 3-4).
 
 # First test run
 Nothing more is happening there, because we still need to tell the master to start the tests. Normally, you'd probably use neat Locust UI for this. You can also take advantage of HTTP API, which is particularly useful for test automation etc. (for example, when you want to start a stress test as a part of your CI/CD pipeline).
@@ -138,7 +138,7 @@ For me, all went well, which the following log proves:
 
 What you can see here is:
 * some inactivity period, stats from before the test was started (lines 1-4)
-* the moment that the master delegated the work to the slaves (line 6)
+* the moment that the master delegated the work to the workers (line 6)
 * THE growing number of request (starting from line 7)
 
 # External access

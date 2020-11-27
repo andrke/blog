@@ -6,7 +6,7 @@ module "distributed_locust" {
   worker_instance_type  = "t3.micro"
   workers_per_region    = 3
   locust_image         = "entigoandrke/locust-tasks:latest"
-  locust_params        = "-e '--web-auth kala:maja'"
+  locust_params        = "-l locustfile-tcp.py -t http://localhost"
 }
 
 output "locust_master_url" {

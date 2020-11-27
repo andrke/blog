@@ -1,28 +1,26 @@
-FROM python:3.8 AS builder
+FROM python:2.7 AS builder
 LABEL maintainer="Andres Kepler <andres.kepler@entigo.com>"
+ARG FLASK_PORT=8080
+ENV FLASK_PORT $FLASK_PORT
 
 COPY requirements.txt .
 RUN pip install --user  -r requirements.txt
 
 # second unnamed stage
-FROM python:3.8-slim
+FROM python:2.7-slim
 
-RUN mkdir /locust
-RUN apt-get update \
-  && apt-get install -y wget \
-  && rm -rf /var/lib/apt/lists/*
-WORKDIR /locust
+RUN mkdir /code
+WORKDIR /code
+
 # copy only the dependencies installation from the 1st stage image
 COPY --from=builder /root/.local /root/.local
-COPY run.sh .
-RUN chmod 755 run.sh
-COPY *.py /locust/
+COPY server.py /code/
 
 
 # Expose the required Locust ports
-EXPOSE 5557 5558 8089
+EXPOSE 8080
 
 ENV PATH=/root/.local/bin:$PATH
 
 # Start Locust using LOCUS_OPTS environment variable
-ENTRYPOINT [ "/locust/run.sh" ]
+ENTRYPOINT [ "python", "server.py" ]

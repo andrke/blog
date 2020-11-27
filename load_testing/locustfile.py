@@ -38,6 +38,7 @@ class WebsiteUser(HttpUser):
     max_wait = 9000
     @task
     class UserBehavior(SequentialTaskSet):
+        uid = None
         def on_start(self):
             """ on_start is called when a Locust start before
                 any task is scheduled
@@ -45,9 +46,9 @@ class WebsiteUser(HttpUser):
             self.login()
 
         def register(self):
-            uid = str(uuid.uuid4())
-            user = uid.split("-")[0]
-            email = "{}@{}.local".format(user, uid.split("-")[1])
+            self.uid = str(uuid.uuid4())
+            user = self.uid.split("-")[0]
+            email = "{}@{}.local".format(user, self.uid.split("-")[1])
             password = user
             return dict(user=user, password=password, email=email, return_data=self.client.post("/api/auth/register",
                                                                                                 json=dict(username=user,
@@ -63,7 +64,7 @@ class WebsiteUser(HttpUser):
 
         @task(6)
         def get_sleep_time(self):
-            sleep = 20
+            sleep = 30
             self.client.get("/sleep/?time={}".format(sleep), timeout=None)
 
         @task(5)

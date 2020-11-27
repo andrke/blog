@@ -4,13 +4,13 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
   labels:
-    role: locust-slave
-  name: locust-slave
+    role: locust-worker
+  name: locust-worker
 spec:
   replicas: 2
   selector:
     matchLabels:
-      role: locust-slave
+      role: locust-worker
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -19,12 +19,12 @@ spec:
   template:
     metadata:
       labels:
-        role: locust-slave
+        role: locust-worker
     spec:
       containers:
       - image: entigoandrke/locust-tasks:latest
         imagePullPolicy: IfNotPresent
-        name: locust-slave
+        name: locust-worker
         env:
           - name: LOCUST_TARGET_HOST
             valueFrom:

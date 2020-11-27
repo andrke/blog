@@ -1,4 +1,5 @@
 FROM python:3
+LABEL maintainer="Andres Kepler <andres.kepler@entigo.com>"
 ENV PYTHONUNBUFFERED 1
 
 ARG DJANGO_ALLOWED_HOSTS=localhost,
