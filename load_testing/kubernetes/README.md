@@ -42,10 +42,9 @@ I'll use *deployment* in order to "ask" K8s for making sure our [master](./maste
 All the source files used below are stored in /kubernetes directory of the experiments repo. Let's set up the cluster. 
 (I assume that Kubernetes is up and running and kubectl is able to connect to the cluster.)
 
-    > git clone https://github.com/karol-brejna-i/locust-experiments.git
-    > cd locust-experiments
-    > cd kubernetes
-    > kubectl create -f locust-cm.yaml  -f master-deployment.yaml -f service.yaml -f slave-deployment.yaml
+    > git clone git@github.com:andrke/blog.git
+    > cd blog\load_testing\kubernetes
+    > kubectl apply -f locust-cm.yaml,master-deployment.yaml, service.yaml, slave-deployment.yaml
 
 *kubectl* command connects to my minikube cluster and crate the components mentioned above. 
 If ran for the first time, it may take a while to complete (if there is no locust docker image on the cluster, it needs to be downloaded first).
