@@ -1,7 +1,7 @@
 ## How to execute
 
 ### Dockerized setup
-`$ docker build . -t locust-tasks`
+`$ docker build . -t locust-tasks:latest`
 
 `$ docker run -it --rm -p=8089:8089 locust-tasks:latest -t https://example.com -l locustfile-simple-index.py`
 
@@ -24,7 +24,7 @@ Without locustfile specification default is locustfile.py
 
 `$ python3 -m venv .venv`
 
-`$ activate .evn/bin/active`
+`$ source .evn/bin/activate`
 
 `$ pip install -r requirements.txt`
 
